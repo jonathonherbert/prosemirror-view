@@ -455,6 +455,9 @@ class WidgetViewDesc extends ViewDesc {
   // : (ViewDesc, Decoration)
   constructor(parent, widget, view, pos) {
     let self, dom = widget.type.toDOM
+    if (!dom) {
+      throw new TypeError(`Tried to construct WidgetViewDesc with spec ${JSON.stringify(widget.type.spec)}, but toDOM was falsy (should be (() => Element)|Element)`)
+    }
     if (typeof dom == "function") dom = dom(view, () => {
       if (!self) return pos
       if (self.parent) return self.parent.posBeforeChild(self)
